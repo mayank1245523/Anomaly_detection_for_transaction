@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Transaction History</title>
+    <style>
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h2>Last 20 Transactions</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Timestamp</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Sender Old</th>
+                <th>Sender New</th>
+                <th>Receiver Old</th>
+                <th>Receiver New</th>
+                <th>Sender Name</th>
+                <th>Receiver Name</th>
+                <th>Location</th>
+                <th>IP</th>
+                <th>Is Fraud</th>
+                <th>Probability</th>
+                <th>Reason</th>
+                <th>Anomaly</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in rows %}
+            <tr>
+                {% for col in row %}
+                <td>{{ col }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

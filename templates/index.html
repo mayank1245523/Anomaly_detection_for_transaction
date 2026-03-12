@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPI FRAUD GUARD | AI Fraud Detection</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #0a0f1e 0%, #1a1f35 100%);
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(10, 15, 30, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 1rem 2rem;
+        }
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff, #90caf9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .nav-link {
+            color: #b0c4de !important;
+            font-weight: 500;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+        .nav-link:hover {
+            color: #3b82f6 !important;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 80px 20px;
+            text-align: center;
+            background: linear-gradient(145deg, #0e1a2b, #0b1424);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff, #a0c0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+        }
+        .hero p {
+            font-size: 1.3rem;
+            color: #b0c4de;
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+        .hero .btn-protect {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            border: none;
+            padding: 15px 50px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            border-radius: 50px;
+            color: white;
+            box-shadow: 0 20px 30px -10px #1e3a8a;
+            transition: all 0.3s;
+        }
+        .hero .btn-protect:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 40px -10px #1e3a8a;
+        }
+        .hero .fraud-alert-img {
+            position: absolute;
+            right: 10%;
+            top: 20%;
+            width: 150px;
+            opacity: 0.2;
+            pointer-events: none;
+        }
+
+        /* Intelligent Protection Section */
+        .intelligent-section {
+            padding: 60px 20px;
+            background: rgba(10, 15, 30, 0.5);
+        }
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff, #a0c0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .protection-list {
+            list-style: none;
+            padding: 0;
+        }
+        .protection-list li {
+            font-size: 1.2rem;
+            margin: 15px 0;
+            color: #b0c4de;
+        }
+        .protection-list i {
+            color: #3b82f6;
+            margin-right: 10px;
+        }
+        .security-image {
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        /* Features Cards */
+        .features-section {
+            padding: 60px 20px;
+        }
+        .feature-card {
+            background: rgba(20, 30, 50, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            height: 100%;
+        }
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 50px -20px #3b82f6;
+        }
+        .feature-card i {
+            font-size: 3rem;
+            color: #3b82f6;
+            margin-bottom: 20px;
+        }
+        .feature-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        .feature-card p {
+            color: #b0c4de;
+        }
+
+        /* Transaction Analysis Section */
+        .analysis-section {
+            padding: 60px 20px;
+            background: rgba(0,0,0,0.2);
+        }
+        .form-card {
+            background: rgba(20, 30, 50, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            padding: 30px;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        .chart-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            font-weight: bold;
+        }
+        .form-control, .form-select {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 12px;
+            color: #fff;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
+            background: rgba(0,0,0,0.4);
+            color: #fff;
+        }
+        .btn-analyze {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: 50px;
+            color: white;
+            box-shadow: 0 10px 20px -5px #1e3a8a;
+            transition: all 0.3s;
+        }
+        .btn-analyze:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px -5px #1e3a8a;
+        }
+        .result-box {
+            background: rgba(0,0,0,0.3);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 5px solid #3b82f6;
+            display: none;
+        }
+        .result-box.alert-danger {
+            border-left-color: #ef4444;
+        }
+        .result-box.alert-success {
+            border-left-color: #10b981;
+        }
+
+        /* Stats Cards (as before) */
+        .stat-card {
+            background: rgba(20, 30, 50, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        .stat-card i {
+            font-size: 2.5rem;
+            color: #3b82f6;
+            margin-bottom: 10px;
+        }
+        .stat-card h3 {
+            font-size: 1.1rem;
+            color: #b0c4de;
+        }
+        .stat-card p {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0;
+            background: linear-gradient(135deg, #fff, #a0c0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Table */
+        .transaction-table {
+            background: rgba(20, 30, 50, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        .transaction-table th {
+            background: rgba(59,130,246,0.3);
+            color: #fff;
+        }
+        .fraud-row {
+            background: rgba(239,68,68,0.15) !important;
+        }
+        .safe-row {
+            background: rgba(16,185,129,0.15) !important;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #6b7a8f;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="#">UPI FRAUD GUARD</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Detect Fraud</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>UPI FRAUD GUARD</h1>
+            <p>Secure Your Digital Transactions<br>Advanced AI-powered fraud detection system with real-time monitoring and instant alerts</p>
+            <button class="btn btn-protect" onclick="document.getElementById('analysis').scrollIntoView({behavior:'smooth'})">PROTECT NOW</button>
+        </div>
+        <!-- Optional fraud alert image (decorative) -->
+        <i class="fas fa-shield-alt fraud-alert-img"></i>
+    </section>
+
+    <!-- Intelligent Protection Section -->
+    <section class="intelligent-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h2 class="section-title">Intelligent Protection</h2>
+                    <h3 class="text-white mb-4">Next-Gen Security</h3>
+                    <p class="text-muted mb-4">Our system employs cutting-edge machine learning algorithms to detect and prevent fraudulent UPI transactions in real-time. With an accuracy rate exceeding 99%, we provide:</p>
+                    <ul class="protection-list">
+                        <li><i class="fas fa-check-circle"></i> AI-Powered Detection</li>
+                        <li><i class="fas fa-check-circle"></i> Real-time Monitoring</li>
+                        <li><i class="fas fa-check-circle"></i> Pattern Recognition</li>
+                        <li><i class="fas fa-check-circle"></i> Instant Alerts</li>
+                    </ul>
+                </div>
+                <div class="col-lg-6">
+                    <img src="https://via.placeholder.com/500x400?text=Security+Illustration" alt="Security" class="img-fluid security-image">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Cards -->
+    <section class="features-section">
+        <div class="container">
+            <h2 class="section-title text-center mb-5">Advanced Features</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <i class="fas fa-shield-alt"></i>
+                        <h3>Real-Time Protection</h3>
+                        <p>Instant transaction analysis with immediate fraud detection alerts.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <i class="fas fa-brain"></i>
+                        <h3>AI Intelligence</h3>
+                        <p>Advanced machine learning for accurate fraud pattern detection.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>Smart Analytics</h3>
+                        <p>Detailed transaction analysis with visual insights.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Transaction Analysis Section (with circular chart) -->
+    <section id="analysis" class="analysis-section">
+        <div class="container">
+            <div class="row">
+                <!-- Form Column -->
+                <div class="col-lg-6">
+                    <div class="form-card">
+                        <h4 class="text-white mb-4"><i class="fas fa-credit-card me-2"></i> Analyze Transaction</h4>
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="form-label">Transaction Type</label>
+                                <select id="type" class="form-select">
+                                    <option value="Payment">Payment</option>
+                                    <option value="Transfer">Transfer</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Amount ($)</label>
+                                <input type="number" id="amount" class="form-control" step="0.01" min="0">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Sender Name/ID</label>
+                                <input type="text" id="nameOrig" class="form-control" value="user_sender">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Receiver Name/ID</label>
+                                <input type="text" id="nameDest" class="form-control" value="user_receiver">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Sender Old Balance</label>
+                                <input type="number" id="oldbalanceOrig" class="form-control" step="0.01" min="0">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Sender New Balance</label>
+                                <input type="number" id="newbalanceOrig" class="form-control" step="0.01" min="0">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Receiver Old Balance</label>
+                                <input type="number" id="oldbalanceDest" class="form-control" step="0.01" min="0">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Receiver New Balance</label>
+                                <input type="number" id="newbalanceDest" class="form-control" step="0.01" min="0">
+                            </div>
+                        </div>
+                        <div class="text-center mt-4">
+                            <button onclick="predictFraud()" class="btn btn-analyze">
+                                <i class="fas fa-shield me-2"></i>ANALYZE TRANSACTION
+                            </button>
+                        </div>
+                        <div id="result" class="result-box text-center mt-4"></div>
+                    </div>
+                </div>
+                <!-- Chart Column -->
+                <div class="col-lg-6 d-flex flex-column align-items-center justify-content-center">
+                    <div class="chart-container mb-4">
+                        <canvas id="fraudDoughnutChart" width="300" height="300"></canvas>
+                        <div class="chart-label">
+                            <span id="chartRiskPercent" style="font-size: 2rem; font-weight: 700; color: #fff;">0%</span><br>
+                            <span style="color: #b0c4de;">Fraud Risk</span>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-around w-50">
+                        <span style="color: #ef4444;"><i class="fas fa-circle me-1"></i>Fraud</span>
+                        <span style="color: #10b981;"><i class="fas fa-circle me-1"></i>Safe</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats and Recent Transactions -->
+    <section class="py-5">
+        <div class="container">
+            <!-- Stats Cards -->
+            <div class="row g-4 mb-5">
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <i class="fas fa-exchange-alt"></i>
+                        <h3>Total Transactions</h3>
+                        <p id="totalTx">0</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <i class="fas fa-exclamation-triangle" style="color: #ef4444;"></i>
+                        <h3>Fraud Detected</h3>
+                        <p id="fraudCount">0</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <i class="fas fa-check-circle" style="color: #10b981;"></i>
+                        <h3>Safe Transactions</h3>
+                        <p id="safeCount">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Transactions Table -->
+            <div class="transaction-table p-4">
+                <h4 class="text-white mb-3"><i class="fas fa-history me-2"></i>Recent Transactions</h4>
+                <div class="table-responsive">
+                    <table class="table table-hover text-white">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Sender</th>
+                                <th>Receiver</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactionTable">
+                            <!-- Dynamic rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2025 UPI FRAUD GUARD | All rights reserved</p>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // ========== GLOBAL VARIABLES ==========
+        let totalTx = 0, fraudCount = 0, safeCount = 0;
+        let doughnutChart;
+
+        // ========== INIT CHART ==========
+        function initChart() {
+            const ctx = document.getElementById('fraudDoughnutChart').getContext('2d');
+            doughnutChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Fraud Risk', 'Safe'],
+                    datasets: [{
+                        data: [0, 100],
+                        backgroundColor: ['#ef4444', '#10b981'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    cutout: '80%',
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { enabled: false }
+                    }
+                }
+            });
+        }
+
+        // ========== UPDATE CHART ==========
+        function updateChart(probability) {
+            const risk = probability * 100;
+            const safe = 100 - risk;
+            doughnutChart.data.datasets[0].data = [risk, safe];
+            doughnutChart.update();
+            document.getElementById('chartRiskPercent').innerText = risk.toFixed(1) + '%';
+        }
+
+        // ========== FETCH STATS ==========
+        async function fetchStats() {
+            try {
+                const res = await fetch('/api/stats');
+                const data = await res.json();
+                totalTx = data.total || 0;
+                fraudCount = data.fraud || 0;
+                safeCount = data.safe || 0;
+                updateStats();
+            } catch (e) {
+                console.log('Stats fetch failed, using defaults');
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('totalTx').innerText = totalTx;
+            document.getElementById('fraudCount').innerText = fraudCount;
+            document.getElementById('safeCount').innerText = safeCount;
+        }
+
+        // ========== ADD TO TABLE ==========
+        function addToTable(payload, result) {
+            const tbody = document.getElementById('transactionTable');
+            const row = document.createElement('tr');
+            row.className = result.is_fraud ? 'fraud-row' : 'safe-row';
+            const time = new Date().toLocaleTimeString();
+            row.innerHTML = `
+                <td>${time}</td>
+                <td>${payload.type}</td>
+                <td>$${payload.amount}</td>
+                <td>${payload.nameOrig}</td>
+                <td>${payload.nameDest}</td>
+                <td>${result.is_fraud ? '🚨 FRAUD' : '✅ SAFE'}</td>
+            `;
+            tbody.prepend(row);
+            if (tbody.children.length > 10) {
+                tbody.removeChild(tbody.lastChild);
+            }
+        }
+
+        // ========== PREDICT FUNCTION ==========
+        async function predictFraud() {
+            const payload = {
+                type: document.getElementById("type").value,
+                amount: document.getElementById("amount").value,
+                oldbalanceOrig: document.getElementById("oldbalanceOrig").value,
+                newbalanceOrig: document.getElementById("newbalanceOrig").value,
+                oldbalanceDest: document.getElementById("oldbalanceDest").value,
+                newbalanceDest: document.getElementById("newbalanceDest").value,
+                nameOrig: document.getElementById("nameOrig")?.value || "unknown_sender",
+                nameDest: document.getElementById("nameDest")?.value || "unknown_receiver"
+            };
+
+            const resultBox = document.getElementById("result");
+            resultBox.style.display = "none";
+
+            try {
+                const res = await fetch("http://localhost:5000/predict", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await res.json();
+
+                if (data.error) {
+                    resultBox.style.display = "block";
+                    resultBox.className = "result-box alert-danger";
+                    resultBox.innerHTML = `<strong>Error:</strong> ${data.error}`;
+                    return;
+                }
+
+                // Update stats
+                totalTx++;
+                if (data.is_fraud === 1) {
+                    fraudCount++;
+                } else {
+                    safeCount++;
+                }
+                updateStats();
+
+                // Update chart
+                updateChart(data.probability);
+
+                // Add to table
+                addToTable(payload, data);
+
+                // Show result
+                resultBox.style.display = "block";
+                resultBox.className = `result-box ${data.is_fraud === 1 ? 'alert-danger' : 'alert-success'}`;
+                resultBox.innerHTML = `
+                    <strong>${data.is_fraud === 1 ? '🚨 FRAUD DETECTED' : '✅ SAFE TRANSACTION'}</strong><br>
+                    <span style="font-size: 1.2rem;">Probability: ${(data.probability * 100).toFixed(2)}%</span>
+                    ${data.rule_reason ? '<br><small>Reason: ' + data.rule_reason + '</small>' : ''}
+                `;
+            } catch (err) {
+                resultBox.style.display = "block";
+                resultBox.className = "result-box alert-warning";
+                resultBox.innerHTML = `<strong>Error:</strong> ${err.message}`;
+            }
+        }
+
+        // ========== ON LOAD ==========
+        window.onload = function() {
+            initChart();
+            fetchStats();
+        };
+    </script>
+</body>
+</html>
